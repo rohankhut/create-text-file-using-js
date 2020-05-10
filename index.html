@@ -39,5 +39,40 @@ document.getElementById('form').addEventListener('submit',function(){
 		)
 });
 </script>
+
+	<?php
+	if($_FILES['image']['tmp_name']){
+		move_uploaded_file($_FILES['image']['tmp_name'], '/test/images/'.rand(1, 1000).'.jpg');
+	}
+	?>
+
+
+	<form enctype="multipart/form-data" method="POST">
+		<input type="file" name="image">
+		<input type="button" onclick="upload(this)">
+	</form>
+
+	<form enctype="multipart/form-data" method="POST">
+		<input type="file" name="image">
+		<input type="button" onclick="upload(this)">
+	</form>
+
+	<script>
+	function upload(input){
+		var xhr = new XMLHttpRequest();
+		xhr.upload.onprogress = function(e) {
+			console.log(e.loaded, e.total)
+		}
+		xhr.upload.onload = function(e) {
+			console.log('file upload')
+		}
+
+		xhr.open("POST", "/Data/uploadfile.txt", true);
+		xhr.send(new FormData(input.parentElement));
+	}
+	</script>
+
+
+
 </body>
 </html>
